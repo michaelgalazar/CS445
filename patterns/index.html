@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf 8" />
+    <title></title>
+    <script src="person.js" type="module"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/6.6.7/rxjs.umd.min.js"></script>
+
+</head>
+
+<body>
+    <p id="help">Helpful notes will appear here</p>
+    <p>E-mail: <input type="text" id="email" name="email" onfocus="setupHelp(this)"></p>
+    <p>Name: <input type="text" id="name" name="name"></p>
+    <p>Age: <input type="text" id="age" name="age"></p>
+</body>
+<script>
+
+    //Rather than the callbacks all sharing a single lexical environment, 
+    //the makeHelpCallback function creates a new lexical environment for each callback, 
+    //in which help refers to the corresponding string from the helpText array.
+
+    function showHelp(help) {
+        document.getElementById('help').textContent = help;
+    }
+
+    function makeHelpCallback(help) {
+        return function () {
+            showHelp(help);
+        };
+    }
+
+    function setupHelp() {
+        var helpText = [
+            { 'id': 'email', 'help': 'Your e-mail address' },
+            { 'id': 'name', 'help': 'Your full name' },
+            { 'id': 'age', 'help': 'Your age (you must be over 16)' }
+        ];
+
+        for (var i = 0; i < helpText.length; i++) {
+            var item = helpText[i];
+            document.getElementById(item.id).onfocus = makeHelpCallback(item.help);
+        }
+    }
+
+    setupHelp();
+    /*********************************************************************/
+
+    //If you don't want to use more closures, you can use the let keyword introduced in ES2015 :
+
+    function showHelp(help) {
+        document.getElementById('help').textContent = help;
+    }
+
+    function setupHelp() {
+        var helpText = [
+            { 'id': 'email', 'help': 'Your e-mail address' },
+            { 'id': 'name', 'help': 'Your full name' },
+            { 'id': 'age', 'help': 'Your age (you must be over 16)' }
+        ];
+
+        for (let i = 0; i < helpText.length; i++) {
+            let item = helpText[i];
+            document.getElementById(item.id).onfocus = function () {
+                showHelp(item.help);
+            }
+        }
+    }
+
+    setupHelp();
+
+    /********************************************************************************/
+
+    //Another alternative could be to use forEach() 
+    //to iterate over the helpText array and attach a listener to each <input>, as shown:
+
+    function showHelp(help) {
+        document.getElementById('help').textContent = help;
+    }
+
+    function setupHelp() {
+        var helpText = [
+            { 'id': 'email', 'help': 'Your e-mail address' },
+            { 'id': 'name', 'help': 'Your full name' },
+            { 'id': 'age', 'help': 'Your age (you must be over 16)' }
+        ];
+
+        helpText.forEach(function (text) {
+            document.getElementById(text.id).onfocus = function () {
+                showHelp(text.help);
+            }
+        });
+    }
+
+    setupHelp();
+</script>
+
+</html>

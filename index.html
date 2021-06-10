@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf 8" />
+    <title></title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/6.6.7/rxjs.umd.min.js"></script>
+    <script src=""></script>
+    <style>
+        .boundary {
+            background-color: greenyellow;
+            max-width: 10%;
+            padding-top: 0%;
+        }
+    </style>
+
+    <button id="button">Refresh</button>
+
+    <script>
+        const { Observable, from, of, fromEvent, Subject } = rxjs;
+        const { map, filter, delay, debounceTime, mergeAll, flatMap } = rxjs.operators;
+
+        fromEvent(document.querySelector('#button'), 'click')
+        .subscribe(() => refresh());
+
+        function refresh() {
+        fetch("https://randomuser.me/api/?results=10")
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                const fnames = document.querySelectorAll('.fname');
+                const locations = document.querySelectorAll('.location');
+                const images = document.querySelectorAll('.image');
+      
+                data.results.forEach((element, i) => {
+                    fnames[i].innerHTML = data.results[i].name.first;
+                    locations[i].innerHTML = data.results[i].location.country;
+                    images[i].src = data.results[i].picture.large;
+                });
+
+            })
+    }
+    </script>
+</head>
+
+<body>
+    <h2>Employee Lists</h2>
+    <div>
+        <div class="fname">FirstName:</div>
+        <div class="location">Location:</div>
+        <img src="" class="image" />
+    </div>
+    <div>
+        <div class="fname">FirstName:</div>
+        <div class="location">Location:</div>
+        <img src="" class="image" />
+
+    </div>
+    <div>
+        <div class="fname">FirstName:</div>
+        <div class="location">Location:</div>
+        <img src="" class="image" />
+    </div>
+
+    <div>
+        <div class="fname">FirstName:</div>
+        <div class="location">Location:</div>
+        <img src="" class="image" />
+
+    </div>
+    <div>
+        <div class="fname">FirstName:</div>
+        <div class="location">Location:</div>
+        <img src="" class="image" />
+    </div>
+
+    <div>
+        <div class="fname">FirstName:</div>
+        <div class="location">Location:</div>
+        <img src="" class="image" />
+
+    </div>
+    <div>
+        <div class="fname">FirstName:</div>
+        <div class="location">Location:</div>
+        <img src="" class="image" />
+    </div>
+
+    <div>
+        <div class="fname">FirstName:</div>
+        <div class="location">Location:</div>
+        <img src="" class="image" />
+
+    </div>
+    <div>
+        <div class="fname">FirstName:</div>
+        <div class="location">Location:</div>
+        <img src="" class="image" />
+    </div>
+
+    <div>
+        <div class="fname">FirstName:</div>
+        <div class="location">Location:</div>
+        <img src="" class="image" />
+
+    </div>
+</body>
+
+</html>
